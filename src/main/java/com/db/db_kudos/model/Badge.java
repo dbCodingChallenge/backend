@@ -23,5 +23,3 @@ public class Badge {
 
 	private String location;
 }
-
-//d
