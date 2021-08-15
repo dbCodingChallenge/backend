@@ -1,2 +1,4 @@
 service: dbkudos-backend-service
 runtime: java11
+resources:
+  memory_gb: 4
