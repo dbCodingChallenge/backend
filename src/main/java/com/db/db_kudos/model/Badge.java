@@ -3,6 +3,8 @@ package com.db.db_kudos.model;
 import lombok.*;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 
 @NoArgsConstructor
@@ -23,6 +25,7 @@ public class Badge {
 
 	private String location;
 
+	@Enumerated(EnumType.ORDINAL)
 	Level level;
 
 	private long purchases;
