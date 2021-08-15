@@ -16,7 +16,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RequestMapping(BadgeController.BADGE_URL)
 public class BadgeController extends AbstractBaseController {
-	public static final String BADGE_URL = AbstractBaseController.BASE_URL + "/badge";
+	static final String BADGE_URL = AbstractBaseController.BASE_URL + "/badge";
 
 	@Autowired
 	BadgeService badgeService;
@@ -24,7 +24,7 @@ public class BadgeController extends AbstractBaseController {
 	@Autowired
 	UserBadgeService userBadgeService;
 
-	@GetMapping("/")
+	@GetMapping("/getAll")
 	public ResponseEntity<List<Badge>> getAll() {
 		return ResponseEntity.ok(badgeService.findAll());
 	}
@@ -54,7 +54,7 @@ public class BadgeController extends AbstractBaseController {
 		return ResponseEntity.ok(userBadgeService.getCart(username));
 	}
 
-	@GetMapping("/latest")
+	@GetMapping("/latest")          ///   improve the response
 	public ResponseEntity<List<UserBadges>> getLatestPurchases() {
 		return ResponseEntity.ok(userBadgeService.getLatestPurchases());
 	}

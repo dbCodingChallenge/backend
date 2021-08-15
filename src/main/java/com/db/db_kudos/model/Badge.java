@@ -25,8 +25,8 @@ public class Badge {
 
 	private String location;
 
-	@Enumerated(EnumType.ORDINAL)
-	Level level;
+	@Enumerated(EnumType.STRING)
+	private Level level;
 
 	private long purchases;
 }

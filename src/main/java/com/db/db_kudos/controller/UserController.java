@@ -18,7 +18,7 @@ public class UserController extends AbstractBaseController {
 	@Autowired
 	UserService userService;
 
-	@GetMapping("/")
+	@GetMapping("/getAll")
 	public ResponseEntity getAll() {
 		return ResponseEntity.ok(userService.findAll());
 	}

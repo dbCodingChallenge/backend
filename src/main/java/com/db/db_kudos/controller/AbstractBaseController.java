@@ -11,16 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(AbstractBaseController.BASE_URL)
 abstract public class AbstractBaseController {
 
-	public static final String BASE_URL = "/dbKudos";
-
-//	@Autowired
-//	AbstractRepository abstractRepository;
+	static final String BASE_URL = "/dbKudos";
 
 	@GetMapping("/")
 	public ResponseEntity check() {
 		return ResponseEntity.ok("Server Up!!");
 	}
-
-
-
 }

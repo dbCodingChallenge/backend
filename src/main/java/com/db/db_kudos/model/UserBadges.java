@@ -19,7 +19,7 @@ public class UserBadges {
 	@EmbeddedId
 	private UserBadgeId id;
 
-	@Enumerated(EnumType.ORDINAL)
+	@Enumerated(EnumType.STRING)
 	private Status status;
 
 	private Date purchasedAt;
