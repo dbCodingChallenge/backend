@@ -11,15 +11,15 @@ steps:
 
   # Cache dependencies
 
-#  # Deployment to app engine
-#  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-#    id: deploy
+  # Deployment to app engine
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    id: deploy
 #    dir: backend
-#    waitFor:
-#      - build
-#    entrypoint: bash
-#    args: ['-c', 'gcloud app deploy']
-#    timeout: '1600s'
-#
+    waitFor:
+      - build
+    entrypoint: bash
+    args: ['-c', 'gcloud app deploy']
+    timeout: '1600s'
+
 
 
