@@ -10,7 +10,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
-public class BadgeService implements AbstarctService<Badge, Integer>{
+public class BadgeService implements AbstractService<Badge, Integer> {
 
 	@Autowired
 	BadgeRepository badgeRepository;

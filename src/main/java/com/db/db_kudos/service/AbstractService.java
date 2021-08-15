@@ -3,7 +3,7 @@ package com.db.db_kudos.service;
 import java.util.List;
 import java.util.Optional;
 
-public interface AbstarctService<T, R> {
+public interface AbstractService<T, R> {
 
 	List<T> findAll();
 

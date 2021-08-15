@@ -22,4 +22,8 @@ public class Badge {
 	private int cost;
 
 	private String location;
+
+	Level level;
+
+	private long purchases;
 }

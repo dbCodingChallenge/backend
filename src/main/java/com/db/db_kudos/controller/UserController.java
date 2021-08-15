@@ -10,14 +10,15 @@ import org.springframework.web.bind.annotation.*;
 import static com.db.db_kudos.controller.UserController.USER_URL;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping(USER_URL)
 public class UserController extends AbstractBaseController {
-	public static final String USER_URL = AbstractBaseController.BASE_URL + "/users";
+	static final String USER_URL = AbstractBaseController.BASE_URL + "/users";
 
 	@Autowired
 	UserService userService;
 
-	@GetMapping("/getAll")
+	@GetMapping("/")
 	public ResponseEntity getAll() {
 		return ResponseEntity.ok(userService.findAll());
 	}
@@ -27,10 +28,13 @@ public class UserController extends AbstractBaseController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(userService.saveOrUpdate(user));
 	}
 
-	@GetMapping("/get/{id}")
-	public ResponseEntity get(@PathVariable("id") String id) {
-		return ResponseEntity.of(userService.findById(id));
+	@GetMapping("/{username}")
+	public ResponseEntity get(@PathVariable("username") String username) {
+		return ResponseEntity.of(userService.findById(username));
 	}
 
-
+	@DeleteMapping("/{username}")
+	public ResponseEntity<Boolean> deleteUser(@PathVariable("username") String username) {
+		return ResponseEntity.ok(userService.deleteById(username));
+	}
 }

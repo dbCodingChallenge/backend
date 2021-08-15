@@ -10,7 +10,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
-public class UserService implements AbstarctService<User, String> {
+public class UserService implements AbstractService<User, String> {
 
 	@Autowired
 	UserRepository userRepository;
