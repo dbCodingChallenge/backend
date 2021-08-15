@@ -1,0 +1,25 @@
+steps:
+  # Step to run the tests
+
+  # Packaging application into a JAR file for maven image
+  - name: maven:3-openjdk-11
+    id: build
+#    dir: backend
+    entrypoint: mvn
+    # Package command rerun tests - skipped
+    args: ['package', '-Dmaven.test.skip=true']
+
+  # Cache dependencies
+
+#  # Deployment to app engine
+#  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+#    id: deploy
+#    dir: backend
+#    waitFor:
+#      - build
+#    entrypoint: bash
+#    args: ['-c', 'gcloud app deploy']
+#    timeout: '1600s'
+#
+
+

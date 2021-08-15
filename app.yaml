@@ -1,0 +1,2 @@
+service: dbkudos-backend-service
+runtime: java11
