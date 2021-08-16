@@ -2,7 +2,6 @@ package com.db.db_kudos.controller;
 
 import com.db.db_kudos.model.Badge;
 import com.db.db_kudos.model.dao.CartDAO;
-import com.db.db_kudos.model.UserBadges;
 import com.db.db_kudos.model.dao.RecentPurchasesDao;
 import com.db.db_kudos.service.BadgeService;
 import com.db.db_kudos.service.UserBadgeService;
