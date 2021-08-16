@@ -35,12 +35,12 @@ public class BadgeController extends AbstractBaseController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Badge> get(@PathVariable("id") int id) {
+	public ResponseEntity<Badge> get(@PathVariable("id") String id) {
 		return ResponseEntity.of(badgeService.findById(id));
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Boolean> deleteBadge(@PathVariable("id") int id) {
+	public ResponseEntity<Boolean> deleteBadge(@PathVariable("id") String id) {
 		return ResponseEntity.ok(badgeService.deleteById(id));
 	}
 
@@ -60,12 +60,12 @@ public class BadgeController extends AbstractBaseController {
 	}
 
 	@GetMapping("{id}/toCart/{username}")
-	public ResponseEntity<Boolean> addToCart(@PathVariable("id") int id, @PathVariable("username") String username) {
+	public ResponseEntity<Boolean> addToCart(@PathVariable("id") String id, @PathVariable("username") String username) {
 		return ResponseEntity.ok(userBadgeService.addToCart(id, username));
 	}
 
 	@GetMapping("{id}/remove/{username}")
-	public ResponseEntity<Boolean> removeFromCart(@PathVariable("id") int id, @PathVariable("username") String username) {
+	public ResponseEntity<Boolean> removeFromCart(@PathVariable("id") String id, @PathVariable("username") String username) {
 		return ResponseEntity.ok(userBadgeService.removeFromCart(id, username));
 	}
 

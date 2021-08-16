@@ -78,7 +78,7 @@ public class UserBadgeService implements AbstractService<UserBadges, UserBadgeId
 		return cart;
 	}
 	private List<Badge> getListCartBadges(List<UserBadges> userBadges) {
-		List<Integer> badgesId =
+		List<String> badgesId =
 				userBadges.stream()
 						.map(userBadge -> userBadge.getId().getBadgeId())
 						.collect(Collectors.toList());
@@ -100,7 +100,7 @@ public class UserBadgeService implements AbstractService<UserBadges, UserBadgeId
 				.collect(Collectors.toList());
 	}
 
-	public Boolean addToCart(int id, String username) {
+	public Boolean addToCart(String id, String username) {
 		try {
 			badgeRepository.findById(id).orElseThrow();
 			UserBadges userBadge = new UserBadges(new UserBadgeId(username, id), Status.IN_CART, new Date());
@@ -112,7 +112,7 @@ public class UserBadgeService implements AbstractService<UserBadges, UserBadgeId
 		}
 	}
 
-	public Boolean removeFromCart(int id, String username) {
+	public Boolean removeFromCart(String id, String username) {
 		try {
 			UserBadges userBadge = userBadgesRepository.findById(new UserBadgeId(username, id)).orElseThrow();
 			userBadgesRepository.delete(userBadge);

@@ -8,9 +8,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
-public class BadgeService implements AbstractService<Badge, Integer> {
+public class BadgeService implements AbstractService<Badge, String> {
 
 	@Autowired
 	BadgeRepository badgeRepository;
@@ -21,17 +22,19 @@ public class BadgeService implements AbstractService<Badge, Integer> {
 	}
 
 	@Override
-	public Optional<Badge> findById(Integer id) {
+	public Optional<Badge> findById(String id) {
 		return badgeRepository.findById(id);
 	}
 
 	@Override
 	public Badge saveOrUpdate(Badge badge) {
+		UUID uuid = UUID.randomUUID();
+		badge.setId(uuid.toString());
 		return badgeRepository.save(badge);
 	}
 
 	@Override
-	public boolean deleteById(Integer id) {
+	public boolean deleteById(String id) {
 		try{
 			badgeRepository.deleteById(id);
 			return true;

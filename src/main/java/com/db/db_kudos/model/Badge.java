@@ -3,10 +3,7 @@ package com.db.db_kudos.model;
 import com.db.db_kudos.model.dao.Level;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,7 +13,7 @@ import javax.persistence.Id;
 @Entity
 public class Badge {
 	@Id
-	private int id;
+	private String id;
 
 	private String name;
 

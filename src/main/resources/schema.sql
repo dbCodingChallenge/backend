@@ -1,5 +1,5 @@
 CREATE TABLE badge (
-    id int NOT NULL,
+    id VARCHAR(255) NOT NULL,
     name VARCHAR (30),
     description VARCHAR(200),
     cost int,

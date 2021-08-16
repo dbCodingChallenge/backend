@@ -13,5 +13,5 @@ import java.io.Serializable;
 @Data
 public class UserBadgeId implements Serializable {
 	private String username;
-	private int badgeId;
+	private String badgeId;
 }
