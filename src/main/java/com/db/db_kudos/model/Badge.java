@@ -1,5 +1,6 @@
 package com.db.db_kudos.model;
 
+import com.db.db_kudos.model.dao.Level;
 import lombok.*;
 
 import javax.persistence.Entity;

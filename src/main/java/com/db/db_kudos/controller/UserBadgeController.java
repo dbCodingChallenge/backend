@@ -1,12 +1,9 @@
 package com.db.db_kudos.controller;
 
-import com.db.db_kudos.model.UserBadges;
 import com.db.db_kudos.service.UserBadgeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -17,8 +14,8 @@ public class UserBadgeController {
 	@Autowired
 	UserBadgeService userBadgeService;
 
-	// cart check out (
-	// -- username
-	// -- total
-	// )
+	@GetMapping("/{username}")
+	public ResponseEntity<Boolean> cartCheckout(@PathVariable("username") String username) {
+		return ResponseEntity.ok(userBadgeService.checkout(username));
+	}
 }

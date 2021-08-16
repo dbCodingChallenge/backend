@@ -1,8 +1,9 @@
 package com.db.db_kudos.controller;
 
 import com.db.db_kudos.model.Badge;
-import com.db.db_kudos.model.CartDAO;
+import com.db.db_kudos.model.dao.CartDAO;
 import com.db.db_kudos.model.UserBadges;
+import com.db.db_kudos.model.dao.RecentPurchasesDao;
 import com.db.db_kudos.service.BadgeService;
 import com.db.db_kudos.service.UserBadgeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public class BadgeController extends AbstractBaseController {
 	}
 
 	@GetMapping("/{username}/getPurchased")
-	public ResponseEntity<List<UserBadges>> getPurchasedBadges(@PathVariable("username") String username) {
+	public ResponseEntity<CartDAO> getPurchasedBadges(@PathVariable("username") String username) {
 		return ResponseEntity.ok(userBadgeService.getPurchased(username));
 	}
 
@@ -54,9 +55,9 @@ public class BadgeController extends AbstractBaseController {
 		return ResponseEntity.ok(userBadgeService.getCart(username));
 	}
 
-	@GetMapping("/latest")          ///   improve the response
-	public ResponseEntity<List<UserBadges>> getLatestPurchases() {
-		return ResponseEntity.ok(userBadgeService.getLatestPurchases());
+	@GetMapping("/recent")
+	public ResponseEntity<List<RecentPurchasesDao>> getRecentPurchases() {
+		return ResponseEntity.ok(userBadgeService.getRecentPurchases());
 	}
 
 	@GetMapping("{id}/toCart/{username}")
