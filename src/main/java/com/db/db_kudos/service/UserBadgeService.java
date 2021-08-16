@@ -3,6 +3,7 @@ package com.db.db_kudos.service;
 import com.db.db_kudos.model.*;
 import com.db.db_kudos.model.dao.CartDAO;
 import com.db.db_kudos.model.dao.RecentPurchasesDao;
+import com.db.db_kudos.model.dao.ShoppingListDao;
 import com.db.db_kudos.model.dao.Status;
 import com.db.db_kudos.repository.BadgeRepository;
 import com.db.db_kudos.repository.UserBadgesRepository;
@@ -12,15 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-public class UserBadgeService implements AbstractService<UserBadges, UserBadgeId> {
+public class UserBadgeService {
 
 	@Autowired
 	UserBadgesRepository userBadgesRepository;
@@ -31,35 +29,10 @@ public class UserBadgeService implements AbstractService<UserBadges, UserBadgeId
 	@Autowired
 	UserRepository userRepository;
 
-	@Override
-	public List<UserBadges> findAll() {
-		return userBadgesRepository.findAll();
-	}
-
-	@Override
-	public Optional<UserBadges> findById(UserBadgeId id) {
-		return userBadgesRepository.findById(id);
-	}
-
-	@Override
-	public UserBadges saveOrUpdate(UserBadges userBadges) {
-		return userBadgesRepository.save(userBadges);
-	}
-
-	@Override
-	public boolean deleteById(UserBadgeId id) {
-		try{
-			userBadgesRepository.deleteById(id);
-			return true;
-		} catch (NoSuchElementException e) {
-			System.out.println(e.getMessage());
-			return false;
-		}
-	}
-
 	public CartDAO getPurchased(String username) {
 		List<UserBadges> userBadges = userBadgesRepository.findById_UsernameAndStatus(username, Status.PURCHASED);
 		CartDAO cart = buildUserBadges(userBadges, username);
+		Collections.sort(cart.getBadges(), (Badge b1, Badge b2) -> (b2.getCost() - b1.getCost()));
 		return cart;
 	}
 
@@ -67,17 +40,18 @@ public class UserBadgeService implements AbstractService<UserBadges, UserBadgeId
 		List<UserBadges> userBadges = userBadgesRepository.findById_UsernameAndStatus(username, Status.IN_CART);
 		CartDAO cart = buildUserBadges(userBadges, username);
 		cart.setAmount(cart.getBadges().stream().mapToInt(Badge::getCost).sum());
+		Collections.sort(cart.getBadges(), (Badge b1, Badge b2) -> (b2.getCost() - b1.getCost()));
 		return cart;
 	}
 
 	private CartDAO buildUserBadges(List<UserBadges> userBadges, String username) {
 		CartDAO cart = new CartDAO();
-		cart.setBadges(getListCartBadges(userBadges));
+		cart.setBadges(getListBadges(userBadges));
 		cart.setUsername(username);
 		cart.setNumberOfBadges(cart.getBadges().size());
 		return cart;
 	}
-	private List<Badge> getListCartBadges(List<UserBadges> userBadges) {
+	private List<Badge> getListBadges(List<UserBadges> userBadges) {
 		List<String> badgesId =
 				userBadges.stream()
 						.map(userBadge -> userBadge.getId().getBadgeId())
@@ -126,7 +100,7 @@ public class UserBadgeService implements AbstractService<UserBadges, UserBadgeId
 		try {
 			User user = userRepository.findById(username).orElseThrow();
 			List<UserBadges> userBadges = userBadgesRepository.findById_UsernameAndStatus(username, Status.IN_CART);
-			List<Badge> badges = getListCartBadges(userBadges);
+			List<Badge> badges = getListBadges(userBadges);
 			int total_cost = badges.stream().mapToInt(Badge::getCost).sum();
 			if (total_cost > user.getKudosPoint()) {
 				return false;
@@ -147,5 +121,26 @@ public class UserBadgeService implements AbstractService<UserBadges, UserBadgeId
 			log.info("Username "+ username + " not exists");
 			return false;
 		}
+	}
+
+
+	public List<ShoppingListDao> getBatchListByUser(String username) {
+		List<UserBadges> userBadges = userBadgesRepository.findById_Username(username);
+		return getShoppingList(userBadges);
+	}
+
+	private List<ShoppingListDao> getShoppingList(List<UserBadges> userBadges) {
+		Map<String, Status> badgeStatus = new HashMap<>();
+
+		userBadges.stream().forEach(userBadge ->
+				badgeStatus.put(userBadge.getId().getBadgeId(), userBadge.getStatus()));
+
+		return badgeRepository.findAll(Sort.by(Sort.Direction.DESC,"cost"))
+				.stream()
+				    .map(badge ->
+						new ShoppingListDao(
+								badge,
+								badgeStatus.getOrDefault(badge.getId(), Status.NOT_PURCHASED)))
+				.collect(Collectors.toList());
 	}
 }

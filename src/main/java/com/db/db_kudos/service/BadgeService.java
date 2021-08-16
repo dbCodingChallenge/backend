@@ -3,6 +3,7 @@ package com.db.db_kudos.service;
 import com.db.db_kudos.model.Badge;
 import com.db.db_kudos.repository.BadgeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class BadgeService implements AbstractService<Badge, String> {
 
 	@Override
 	public List<Badge> findAll() {
-		return badgeRepository.findAll();
+		return badgeRepository.findAll(Sort.by(Sort.Direction.DESC, "cost"));
 	}
 
 	@Override
@@ -27,9 +28,14 @@ public class BadgeService implements AbstractService<Badge, String> {
 	}
 
 	@Override
-	public Badge saveOrUpdate(Badge badge) {
+	public Badge save(Badge badge) {
 		UUID uuid = UUID.randomUUID();
 		badge.setId(uuid.toString());
+		return badgeRepository.save(badge);
+	}
+
+	@Override
+	public Badge update(Badge badge) {
 		return badgeRepository.save(badge);
 	}
 

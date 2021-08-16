@@ -9,7 +9,9 @@ public interface AbstractService<T, R> {
 
 	Optional<T> findById(R id);
 
-	T saveOrUpdate(T t);
+	T save(T t);
+
+	T update(T t);
 
 	boolean deleteById(R id);
 }

@@ -12,7 +12,7 @@
     <artifactId>db_kudos</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>dbKudosEmoji</name>
-    <description>Demo project for Spring Boot</description>
+    <description>DB Kudos Emojis</description>
     <properties>
         <java.version>11</java.version>
         <spring-cloud-gcp.version>1.2.0.RELEASE</spring-cloud-gcp.version>
@@ -67,13 +67,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <!--<dependency>-->
-                <!--<groupId>org.springframework.cloud</groupId>-->
-                <!--<artifactId>spring-cloud-dependencies</artifactId>-->
-                <!--<version>${spring-cloud.version}</version>-->
-                <!--<type>pom</type>-->
-                <!--<scope>import</scope>-->
-            <!--</dependency>-->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-gcp-dependencies</artifactId>

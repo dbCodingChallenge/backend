@@ -26,7 +26,12 @@ public class UserService implements AbstractService<User, String> {
 	}
 
 	@Override
-	public User saveOrUpdate(User user) {
+	public User save(User user) {
+		return userRepository.save(user);
+	}
+
+	@Override
+	public User update(User user) {
 		return userRepository.save(user);
 	}
 

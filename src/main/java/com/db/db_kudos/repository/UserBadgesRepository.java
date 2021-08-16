@@ -14,4 +14,5 @@ public interface UserBadgesRepository extends JpaRepository<UserBadges, UserBadg
 
 	List<UserBadges> findById_UsernameAndStatus(String username, Status status);
 	List<UserBadges> findByStatus(Status status, Sort sort);
+	List<UserBadges> findById_Username(String username);
 }
