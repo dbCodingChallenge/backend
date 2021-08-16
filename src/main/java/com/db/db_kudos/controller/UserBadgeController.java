@@ -17,13 +17,8 @@ public class UserBadgeController {
 	@Autowired
 	UserBadgeService userBadgeService;
 
-	//add to cart
-	//remove from cart
-
 	// cart check out (
 	// -- username
 	// -- total
 	// )
-
-	//
 }

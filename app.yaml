@@ -1,4 +1,5 @@
 service: dbkudos-backend-service
 runtime: java11
+env: flex
 resources:
   memory_gb: 4

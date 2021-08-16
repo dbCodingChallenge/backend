@@ -74,7 +74,7 @@ public class UserBadgeService implements AbstractService<UserBadges, UserBadgeId
 
 	public Boolean addToCart(int id, String username) {
 		try {
-			Badge badge = badgeRepository.findById(id).orElseThrow();
+			badgeRepository.findById(id).orElseThrow();
 			UserBadges userBadge = new UserBadges(new UserBadgeId(username, id), Status.IN_CART, new Date());
 			userBadgesRepository.save(userBadge);
 			return true;
