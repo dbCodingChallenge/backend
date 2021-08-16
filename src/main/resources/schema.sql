@@ -1,3 +1,5 @@
+drop table badge;
+
 CREATE TABLE badge (
     id VARCHAR(255) NOT NULL,
     name VARCHAR (30),
