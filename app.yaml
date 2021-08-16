@@ -1,3 +1,4 @@
+service: dbkudos-backend-service
 runtime: java11
 env: standard
 runtime_config:
