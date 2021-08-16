@@ -1,6 +1,9 @@
 package com.db.db_kudos.controller;
 
 import com.db.db_kudos.model.User;
+import com.db.db_kudos.model.UserBadges;
+import com.db.db_kudos.model.dao.ShoppingListDao;
+import com.db.db_kudos.service.UserBadgeService;
 import com.db.db_kudos.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,9 @@ public class UserController extends AbstractBaseController {
 
 	@Autowired
 	UserService userService;
+
+	@Autowired
+	UserBadgeService userBadgeService;
 
 	@GetMapping("/getAll")
 	public ResponseEntity<List<User>> getAll() {
@@ -59,5 +65,10 @@ public class UserController extends AbstractBaseController {
 	@DeleteMapping("/{username}")
 	public ResponseEntity<Boolean> deleteUser(@PathVariable("username") String username) {
 		return ResponseEntity.ok(userService.deleteById(username));
+	}
+
+	@GetMapping("/{username}/badgesOnShop")
+	public ResponseEntity<List<ShoppingListDao>> getBadgeListByUser(@PathVariable("username") String username) {
+		return ResponseEntity.ok(userBadgeService.getBadgeOnShopByUser(username));
 	}
 }

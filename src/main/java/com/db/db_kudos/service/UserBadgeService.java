@@ -123,15 +123,29 @@ public class UserBadgeService {
 		}
 	}
 
+	public List<ShoppingListDao> getBadgeOnShopByUser(String username) {
+		List<UserBadges> userBadges = userBadgesRepository.findById_Username(username);
+		Map<String, Status> badgeStatus = new HashMap<>();
+		userBadges.stream().forEach(userBadge ->
+				badgeStatus.put(userBadge.getId().getBadgeId(), userBadge.getStatus()));
 
-	public List<ShoppingListDao> getBatchListByUser(String username) {
+		return badgeRepository.findAll(Sort.by(Sort.Direction.DESC,"cost"))
+				.stream()
+				.filter(badge -> !badgeStatus.containsKey(badge.getId()))
+				.map(badge ->
+						new ShoppingListDao(
+								badge,
+								Status.NOT_PURCHASED))
+				.collect(Collectors.toList());
+	}
+
+	public List<ShoppingListDao> getBadgeListByUser(String username) {
 		List<UserBadges> userBadges = userBadgesRepository.findById_Username(username);
 		return getShoppingList(userBadges);
 	}
 
 	private List<ShoppingListDao> getShoppingList(List<UserBadges> userBadges) {
 		Map<String, Status> badgeStatus = new HashMap<>();
-
 		userBadges.stream().forEach(userBadge ->
 				badgeStatus.put(userBadge.getId().getBadgeId(), userBadge.getStatus()));
 

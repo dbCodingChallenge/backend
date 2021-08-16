@@ -92,6 +92,6 @@ public class BadgeController extends AbstractBaseController {
 
 	@GetMapping("/shoppingList/{username}")
 	public ResponseEntity<List<ShoppingListDao>> getBatchListByUser(@PathVariable("username") String username) {
-		return ResponseEntity.ok(userBadgeService.getBatchListByUser(username));
+		return ResponseEntity.ok(userBadgeService.getBadgeListByUser(username));
 	}
 }
