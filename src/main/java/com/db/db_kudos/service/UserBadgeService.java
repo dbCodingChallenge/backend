@@ -78,7 +78,7 @@ public class UserBadgeService {
 		try {
 			badgeRepository.findById(id).orElseThrow();
 			userRepository.findById(username).orElseThrow();
-			if (userBadgesRepository.findById_Username(username).size() > 0) {
+			if (userBadgesRepository.findById(new UserBadgeId(username, id)).isPresent()) {
 				return false;
 			}
 			UserBadges userBadge = new UserBadges(new UserBadgeId(username, id), Status.IN_CART, new Date());

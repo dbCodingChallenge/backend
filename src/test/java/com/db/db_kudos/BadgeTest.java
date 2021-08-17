@@ -3,14 +3,10 @@ package com.db.db_kudos;
 import com.db.db_kudos.controller.BadgeController;
 import com.db.db_kudos.model.Badge;
 import com.db.db_kudos.model.dao.Level;
-import com.db.db_kudos.repository.BadgeRepository;
 import com.db.db_kudos.service.BadgeService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
