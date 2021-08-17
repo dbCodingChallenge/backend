@@ -77,6 +77,10 @@ public class UserBadgeService {
 	public Boolean addToCart(String id, String username) {
 		try {
 			badgeRepository.findById(id).orElseThrow();
+			userRepository.findById(username).orElseThrow();
+			if (userBadgesRepository.findById_Username(username).size() > 0) {
+				return false;
+			}
 			UserBadges userBadge = new UserBadges(new UserBadgeId(username, id), Status.IN_CART, new Date());
 			userBadgesRepository.save(userBadge);
 			log.info("Item: " + id + " added to cart for user: " + username);
@@ -88,6 +92,9 @@ public class UserBadgeService {
 
 	public Boolean removeFromCart(String id, String username) {
 		try {
+			badgeRepository.findById(id).orElseThrow();
+			userRepository.findById(username).orElseThrow();
+
 			UserBadges userBadge = userBadgesRepository.findById(new UserBadgeId(username, id)).orElseThrow();
 			userBadgesRepository.delete(userBadge);
 			return true;

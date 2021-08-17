@@ -1,9 +1,7 @@
 package com.db.db_kudos.controller;
 
 import com.db.db_kudos.model.Badge;
-import com.db.db_kudos.model.dao.CartDAO;
 import com.db.db_kudos.model.dao.RecentPurchasesDao;
-import com.db.db_kudos.model.dao.ShoppingListDao;
 import com.db.db_kudos.service.BadgeService;
 import com.db.db_kudos.service.UserBadgeService;
 import lombok.extern.slf4j.Slf4j;
@@ -19,8 +17,8 @@ import java.util.NoSuchElementException;
 @CrossOrigin(origins = "*")
 @Slf4j
 @RequestMapping(BadgeController.BADGE_URL)
-public class BadgeController extends AbstractBaseController {
-	static final String BADGE_URL = AbstractBaseController.BASE_URL + "/badge";
+public class BadgeController {
+	static final String BADGE_URL = BaseController.BASE_URL + "/badge";
 
 	@Autowired
 	BadgeService badgeService;
@@ -28,17 +26,17 @@ public class BadgeController extends AbstractBaseController {
 	@Autowired
 	UserBadgeService userBadgeService;
 
-	@GetMapping("/getAll")
+	@GetMapping("/")
 	public ResponseEntity<List<Badge>> getAll() {
 		return ResponseEntity.ok(badgeService.findAll());
 	}
 
 	@PostMapping("/")
 	public ResponseEntity<Badge> post(@RequestBody Badge badge) {
-		try{
+		try {
 			badgeService.findById(badge.getId()).orElseThrow();
 			log.info("Id already exists !!");
-			return ResponseEntity.ok(null);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		} catch (NoSuchElementException e) {
 			return ResponseEntity.status(HttpStatus.CREATED).body(badgeService.save(badge));
 		}
@@ -51,7 +49,7 @@ public class BadgeController extends AbstractBaseController {
 			return ResponseEntity.status(HttpStatus.CREATED).body(badgeService.update(badge));
 		} catch (NoSuchElementException e) {
 			log.info("Username not exists !!");
-			return ResponseEntity.ok(null);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
 	}
 
@@ -61,37 +59,17 @@ public class BadgeController extends AbstractBaseController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Boolean> deleteBadge(@PathVariable("id") String id) {
-		return ResponseEntity.ok(badgeService.deleteById(id));
-	}
-
-	@GetMapping("/{username}/getPurchased")
-	public ResponseEntity<CartDAO> getPurchasedBadges(@PathVariable("username") String username) {
-		return ResponseEntity.ok(userBadgeService.getPurchased(username));
-	}
-
-	@GetMapping("/{username}/getCart")
-	public ResponseEntity<CartDAO> getCartBadges(@PathVariable("username") String username) {
-		return ResponseEntity.ok(userBadgeService.getCart(username));
+	public ResponseEntity<Badge> deleteBadge(@PathVariable("id") String id) {
+		Badge badge = badgeService.deleteById(id);
+		if(badge != null) {
+			return ResponseEntity.ok(badge);
+		} else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(badge);
+		}
 	}
 
 	@GetMapping("/recent")
 	public ResponseEntity<List<RecentPurchasesDao>> getRecentPurchases() {
 		return ResponseEntity.ok(userBadgeService.getRecentPurchases());
-	}
-
-	@GetMapping("{id}/toCart/{username}")
-	public ResponseEntity<Boolean> addToCart(@PathVariable("id") String id, @PathVariable("username") String username) {
-		return ResponseEntity.ok(userBadgeService.addToCart(id, username));
-	}
-
-	@GetMapping("{id}/remove/{username}")
-	public ResponseEntity<Boolean> removeFromCart(@PathVariable("id") String id, @PathVariable("username") String username) {
-		return ResponseEntity.ok(userBadgeService.removeFromCart(id, username));
-	}
-
-	@GetMapping("/shoppingList/{username}")
-	public ResponseEntity<List<ShoppingListDao>> getBatchListByUser(@PathVariable("username") String username) {
-		return ResponseEntity.ok(userBadgeService.getBadgeListByUser(username));
 	}
 }

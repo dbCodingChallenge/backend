@@ -12,6 +12,4 @@ public interface AbstractService<T, R> {
 	T save(T t);
 
 	T update(T t);
-
-	boolean deleteById(R id);
 }

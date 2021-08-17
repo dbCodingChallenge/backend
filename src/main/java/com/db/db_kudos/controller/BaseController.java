@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping(AbstractBaseController.BASE_URL)
-abstract public class AbstractBaseController {
+@RequestMapping(BaseController.BASE_URL)
+public class BaseController {
 
 	static final String BASE_URL = "/dbKudos";
 

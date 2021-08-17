@@ -39,14 +39,14 @@ public class BadgeService implements AbstractService<Badge, String> {
 		return badgeRepository.save(badge);
 	}
 
-	@Override
-	public boolean deleteById(String id) {
+	public Badge deleteById(String id) {
 		try{
+			Badge badge = badgeRepository.findById(id).orElseThrow();
 			badgeRepository.deleteById(id);
-			return true;
+			return badge;
 		} catch (NoSuchElementException e) {
 			System.out.println(e.getMessage());
-			return false;
+			return null;
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package com.db.db_kudos.service;
 
+import com.db.db_kudos.controller.UserController;
 import com.db.db_kudos.model.User;
 import com.db.db_kudos.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements AbstractService<User, String> {
@@ -17,7 +19,8 @@ public class UserService implements AbstractService<User, String> {
 
 	@Override
 	public List<User> findAll() {
-		return userRepository.findAll();
+		List<User> users = userRepository.findAll();
+		return users.stream().filter(user -> user.isActive()).collect(Collectors.toList());
 	}
 
 	@Override
@@ -35,14 +38,14 @@ public class UserService implements AbstractService<User, String> {
 		return userRepository.save(user);
 	}
 
-	@Override
-	public boolean deleteById(String id) {
+	public User deleteById(String id) {
 		try{
-			userRepository.deleteById(id);
-			return true;
+			User user = userRepository.findById(id).orElseThrow();
+			user.setActive(false);
+			userRepository.save(user);
+			return user;
 		} catch (NoSuchElementException e) {
-			System.out.println(e.getMessage());
-			return false;
+			return null;
 		}
 	}
 }
