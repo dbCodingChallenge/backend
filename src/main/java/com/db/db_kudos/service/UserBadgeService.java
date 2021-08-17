@@ -109,7 +109,7 @@ public class UserBadgeService {
 			List<UserBadges> userBadges = userBadgesRepository.findById_UsernameAndStatus(username, Status.IN_CART);
 			List<Badge> badges = getListBadges(userBadges);
 			int total_cost = badges.stream().mapToInt(Badge::getCost).sum();
-			if (total_cost > user.getKudosPoint()) {
+			if (total_cost > user.getKudosPoint() || userBadges.isEmpty()) {
 				return false;
 			}
 			user.setKudosPoint(user.getKudosPoint() - total_cost);

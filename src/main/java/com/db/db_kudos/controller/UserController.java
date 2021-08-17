@@ -44,12 +44,10 @@ public class UserController {
 		}
 	}
 
-	@PutMapping("/{username}")
-	public ResponseEntity<User> put(@RequestBody User user, @PathVariable String username) {
+	@PutMapping("/")
+	public ResponseEntity<User> put(@RequestBody User user) {
 		try {
-			userService.findById(username).orElseThrow();
-			String newUsername = user.getUsername();
-			if(userService.findById(newUsername).isPresent()) {
+			if(userService.findById(user.getUsername()).isEmpty()) {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 			}
 			return ResponseEntity.ok(userService.save(user));
