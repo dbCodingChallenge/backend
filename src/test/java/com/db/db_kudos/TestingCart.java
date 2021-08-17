@@ -15,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class TestingCart {
@@ -35,6 +35,7 @@ public class TestingCart {
 	Badge badge1;
 	Badge badge2;
 	User user;
+
 	@BeforeEach
 	public void setTestCases() {
 		user = new User("piyush", "piyush@db.com", "Piyush", 50, true);
@@ -51,26 +52,54 @@ public class TestingCart {
 	public void testCheckoutEmptyCart() {
 		badge1 = badgeService.save(badge1);
 		userService.save(user);
-		assertEquals(false, userBadgeService.checkout("piyush"));
+		assertFalse(userBadgeService.checkout("piyush"));
 	}
-
 
 	@Test
 	public void testCheckoutGreater() {
 		badge1 = badgeService.save(badge1);
-		userController.addToCart(badge1.getId(), user.getUsername());
 		userService.save(user);
-		assertEquals(false, userBadgeService.checkout("piyush"));
+		userController.addToCart(badge1.getId(), user.getUsername());
+		assertFalse(userBadgeService.checkout("piyush"));
 	}
 
 	@Test
 	public void testAddingToCartWithoutUser() {
 		badge1 = badgeService.save(badge1);
 		assertEquals(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false),userController.addToCart(badge1.getId(), user.getUsername()));
-
 	}
 
+	@Test
+	public void cartCheckoutSuccessful() {
+		badge2 = badgeService.save(badge2);
+		userService.save(user);
+		userController.addToCart(badge2.getId(), user.getUsername());
+		assertTrue(userBadgeService.checkout("piyush"));
+		assertEquals(20, userService.findById(user.getUsername()).get().getKudosPoint());
+	}
 
+	@Test
+	public void  removeBadgeFromCartUnsuccessful() {
+		badge2 = badgeService.save(badge2);
+		userService.save(user);
+		assertFalse(userBadgeService.removeFromCart(badge2.getId(), "piyush"));
+	}
 
+	@Test
+	public void removeBadgeFromCartSuccessful() {
+		badge2 = badgeService.save(badge2);
+		userService.save(user);
+		userController.addToCart(badge2.getId(), user.getUsername());
+		assertTrue(userBadgeService.removeFromCart(badge2.getId(), "piyush"));
+	}
+
+	@Test
+	public void getCartSize() {
+		badge2 = badgeService.save(badge2);
+		userService.save(user);
+		assertEquals(0, userBadgeService.getCart(user.getUsername()).getNumberOfBadges());
+		userController.addToCart(badge2.getId(), user.getUsername());
+		assertEquals(1, userBadgeService.getCart(user.getUsername()).getNumberOfBadges());
+	}
 
 }

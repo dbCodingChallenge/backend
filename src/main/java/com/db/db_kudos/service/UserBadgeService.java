@@ -113,6 +113,7 @@ public class UserBadgeService {
 				return false;
 			}
 			user.setKudosPoint(user.getKudosPoint() - total_cost);
+			userRepository.save(user);
 			userBadges.stream().forEach(userBadge -> {
 				userBadge.setPurchasedAt(new Date());
 				userBadge.setStatus(Status.PURCHASED);
